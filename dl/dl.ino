@@ -210,7 +210,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
   packetLog.radioOnTime = end_time - start_time;
   packetLog.timestamp = formatTimestamp(millis()); 
   packetLog.packetNumber = myData.packetNumber;
-  if (packetLog.received = true) {
+  if (packetLog.received == true) {
     previous_received = true;
   } else {
     previous_received = false;
@@ -261,25 +261,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
   sleep_time = predict_sleep_time(end_time - start_time, rssi_display, previous_delta, previous_rssi, previous_received,
                                 sleep_time, (end_time - start_time) - previous_delta, rssi_display - previous_rssi,
                                 rolling_delta_avg, rolling_rssi_avg); 
-  Serial.print(end_time - start_time);
-  Serial.print(' ');
-  Serial.print(rssi_display);
-  Serial.print(' ');
-  Serial.print(previous_delta);
-  Serial.print(' ');
-  Serial.print(previous_rssi);
-  Serial.print(' ');
-  Serial.print(previous_received);
-  Serial.print(' ');
-  Serial.print(sleep_time);
-  Serial.print(' ');
-  Serial.print((end_time - start_time) - previous_delta);
-  Serial.print(' ');
-  Serial.print(rssi_display - previous_rssi);
-  Serial.print(' ');
-  Serial.print(rolling_delta_avg);
-  Serial.print(' ');
-  Serial.println(rolling_rssi_avg); 
+   
   packetLog.newDelay = sleep_time;                              
 
 
