@@ -19,7 +19,7 @@ int end_time = 0;
 bool SYNCED = false;
 bool first_packet_received = false;
 
-int sleep_time = 4970;
+int sleep_time = 29970;
 int previous_delta = 0;
 int previous_rssi = 0;
 bool previous_received = true;
@@ -50,7 +50,7 @@ typedef struct {
   int data; 
   int length; 
   String madeAdjustment; 
-  int newDelay = 4970; 
+  int newDelay = 29970; 
   int rssi_display;
 } PacketLog;
 
@@ -151,20 +151,20 @@ int predict_sleep_time(
   float rolling_delta_avg,
   float rolling_rssi_avg
 ) {
-    const float intercept = 1302.16988f;
+    const float intercept = 0.7541581f;
     const float prediction =
-      intercept
-      + (-0.000996752f * delta_time)
-      + (-0.0383709095f * rssi)
-      + (-0.000241911288f * prev_delta)
-      + (-0.0226541446f * prev_rssi)
-      + (-0.254682147f * prev_received)
-      + ( 0.73933496f * prev_sleep_time)
-      + (-0.000754840655f * delta_change)
-      + (-0.0157167649f * rssi_change)
-      + ( 0.0000608629029f * rolling_delta_avg)
-      + ( 0.075915945f * rolling_rssi_avg);
-  
+    intercept
+    + (-0.000194046657f * delta_time)
+    + ( 0.0965526335f * rssi)
+    + (-0.0000880503208f * prev_delta)
+    + ( 0.105429226f * prev_rssi)
+    + (-0.891233266f * prev_received)
+    + ( 1.00000278f * prev_sleep_time)
+    + (-0.000105996337f * delta_change)
+    + (-0.00887659244f * rssi_change)
+    + ( 0.000185935585f * rolling_delta_avg)
+    + (-0.201547619f * rolling_rssi_avg);
+
   return static_cast<int>(round(prediction));
 }
 
@@ -340,7 +340,7 @@ void loop() {
       delay(sleep_time);  
       printFinalStatistics();
       esp_sleep_enable_timer_wakeup(2*uS_TO_MIN_FACTOR);
-      if (bootCount == 10) {
+      if (bootCount == 5) {
         esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_TIMER);
       }
       Serial.println("Turning off...");
